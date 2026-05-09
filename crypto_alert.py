@@ -33,15 +33,15 @@ last_alert = {}
 
 def get_price(symbol):
 
-    ids = {
-        "BTCUSDT": "bitcoin",
-        "ETHUSDT": "ethereum",
-        "SOLUSDT": "solana"
+    pairs = {
+        "BTCUSDT": "XBTUSDT",
+        "ETHUSDT": "ETHUSDT",
+        "SOLUSDT": "SOLUSD"
     }
 
-    coin_id = ids[symbol]
+    pair = pairs[symbol]
 
-    url = f"https://api.coincap.io/v2/assets/{coin_id}"
+    url = f"https://api.kraken.com/0/public/Ticker?pair={pair}"
 
     response = requests.get(url)
 
@@ -49,7 +49,13 @@ def get_price(symbol):
 
     print(data)
 
-    return float(data["data"]["priceUsd"])
+    result = data["result"]
+
+    first_key = list(result.keys())[0]
+
+    price = result[first_key]["c"][0]
+
+    return float(price)
 
 def send_email(subject, body):
 

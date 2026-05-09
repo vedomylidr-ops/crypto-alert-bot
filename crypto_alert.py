@@ -47,7 +47,7 @@ def get_price(symbol):
 
     data = response.json()
 
-    print(data)
+
 
     result = data["result"]
 

@@ -41,24 +41,15 @@ def get_price(symbol):
 
     coin_id = ids[symbol]
 
-    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
+    url = f"https://api.coincap.io/v2/assets/{coin_id}"
 
-    response = requests.get(
-        url,
-        headers={
-            "accept": "application/json",
-            "user-agent": "Mozilla/5.0"
-        }
-    )
+    response = requests.get(url)
 
     data = response.json()
 
     print(data)
 
-    if coin_id not in data:
-        raise Exception(f"CoinGecko API error: {data}")
-
-    return float(data[coin_id]["usd"])
+    return float(data["data"]["priceUsd"])
 
 def send_email(subject, body):
 

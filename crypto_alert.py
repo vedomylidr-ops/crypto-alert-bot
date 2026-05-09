@@ -32,9 +32,18 @@ price_history = {
 last_alert = {}
 
 def get_price(symbol):
+
     url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}"
+
     response = requests.get(url)
+
     data = response.json()
+
+    print(data)
+
+    if "price" not in data:
+        raise Exception(f"Binance API error: {data}")
+
     return float(data["price"])
 
 def send_email(subject, body):

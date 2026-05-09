@@ -43,9 +43,20 @@ def get_price(symbol):
 
     url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
 
-    response = requests.get(url)
+    response = requests.get(
+        url,
+        headers={
+            "accept": "application/json",
+            "user-agent": "Mozilla/5.0"
+        }
+    )
 
     data = response.json()
+
+    print(data)
+
+    if coin_id not in data:
+        raise Exception(f"CoinGecko API error: {data}")
 
     return float(data[coin_id]["usd"])
 

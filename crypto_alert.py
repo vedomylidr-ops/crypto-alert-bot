@@ -33,18 +33,21 @@ last_alert = {}
 
 def get_price(symbol):
 
-    url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}"
+    ids = {
+        "BTCUSDT": "bitcoin",
+        "ETHUSDT": "ethereum",
+        "SOLUSDT": "solana"
+    }
+
+    coin_id = ids[symbol]
+
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
 
     response = requests.get(url)
 
     data = response.json()
 
-    print(data)
-
-    if "price" not in data:
-        raise Exception(f"Binance API error: {data}")
-
-    return float(data["price"])
+    return float(data[coin_id]["usd"])
 
 def send_email(subject, body):
 
